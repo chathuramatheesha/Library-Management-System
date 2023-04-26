@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone
+from Library_Management_System.utils import PathAndRename
 
 
 class Author(models.Model):
     first_name = models.CharField(max_length=50, blank=False, null=False)
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     surname = models.CharField(max_length=150, blank=False, null=False)
+    image = models.ImageField(null=False, upload_to=PathAndRename("authors/"))
     issued_books_count = models.IntegerField()
     library_books_count = models.IntegerField()
 
@@ -40,7 +42,8 @@ class BorrowerType(models.Model):
 
 class Borrower(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-    borrower_type = models.ForeignKey(BorrowerType, on_delete=models.DO_NOTHING)
+    image = models.ImageField(null=False, upload_to=PathAndRename("borrowers/"))
+    borrower_type = models.ForeignKey(BorrowerType, on_delete=models.DO_NOTHING, related_name='borrowers')
     birthdate = models.DateTimeField()
     user_created_date = models.DateTimeField(default=timezone.now)
 
