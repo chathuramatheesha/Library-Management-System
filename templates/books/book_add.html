@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Book | Add{% endblock title %}
 {% block body %}
-    {% if user.is_staff %}
+    {% if user.is_authenticated and user.is_staff %}
         <form method="POST" class="form-inline" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <input style="margin-top: 30px;" type="submit" class="btn btn-primary" value="Submit"/>
         </form>
     {% else %}
-
+        <div class="alert alert-danger" role="alert">
+            Access Denied
+        </div>
     {% endif %}
 {% endblock body %}

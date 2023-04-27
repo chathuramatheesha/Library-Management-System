@@ -1,8 +1,8 @@
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Book, Borrowed
+from user.models import Author
 from django.contrib.auth.mixins import LoginRequiredMixin
-from Library_Management_System.constants import LIBRARY_QUOTE, BRAND_NAME
 from .forms import BookForm
 from django.urls import reverse_lazy
 
@@ -10,13 +10,7 @@ from django.urls import reverse_lazy
 class BookListView(ListView):
     model = Book
     template_name = 'books/book_list.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['book_list'] = Book.objects.all()
-        context['library_quote'] = LIBRARY_QUOTE
-        context['brand_name'] = BRAND_NAME
-        return context
+    paginate_by = 15
 
 
 class BookSearchView(ListView):

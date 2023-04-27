@@ -10,11 +10,6 @@ class Author(models.Model):
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     surname = models.CharField(max_length=150, blank=False, null=False)
     image = models.ImageField(upload_to=PathAndRename("authors/"))
-    library_books_count = models.IntegerField(default=0, blank=True, null=True)
-
-    def library_book_count(self, count=1):
-        self.library_books_count += count
-        self.save()
 
     def get_fullname(self):
         if self.middle_name is None or len(self.middle_name) <= 0:
