@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete {{ object }}?</p>
+        <input type="submit" class="btn btn-danger" value="Confirm"/>
+        <a href="{{ view.get_success_url }}">
+            <button type="button" class="btn btn-primary">Cancel</button>
+        </a>
+    </form>
+{% endblock body %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block search %}
+    <form class="d-flex" role="search" action="{% url 'author_search' %}" method="GET">
+        <input name="book_search" class="form-control me-2" type="search" placeholder="Search"
+               aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+{% endblock search %}
+{% block body %}
+    {% if author_list %}
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+                    <!-- Looping through every Author in database -->
+                    {% for author in author_list %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+
+                                <!-- Display image of author -->
+                                <img src="{{ author.image.url }}" alt="{{ author.first_name }}" height="400"
+                                     width="100%"/>
+
+                                <div class="card-body">
+
+                                    <!-- Display Author's fullname -->
+                                    <h6>{{ author.get_fullname }}</h6>
+                                    <!-- Display author's fullname of book -->
+                                    <p class="card-text">{{ book.author.get_fullname }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <!-- Check user is logged and staff -->
+                                            {% if user.is_authenticated and user.is_staff %}
+                                                <form action="{% url 'author_edit' pk=author.pk %}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary">Edit
+                                                    </button>
+                                                </form>
+                                                <form action="{% url 'author_delete' pk=author.pk %}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                        <small class="text-muted"><strong>Books
+                                            Count</strong> {{ author.library_books_count }}</small>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-primary" role="alert">
+            No Authors Available Right Now
+        </div>
+    {% endif %}
+{% endblock body %}
