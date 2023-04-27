@@ -1,8 +1,10 @@
 from django.db.models import Q
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Book, Borrowed
+from django.contrib.auth.mixins import LoginRequiredMixin
 from Library_Management_System.constants import LIBRARY_QUOTE, BRAND_NAME
+from .forms import BookForm
+from django.urls import reverse_lazy
 
 
 class BookListView(ListView):
@@ -28,6 +30,29 @@ class BookSearchView(ListView):
                 author__surname__icontains=query) | Q(author__middle_name__icontains=query)
         )
         return book_list
+
+
+class BookDeleteView(DeleteView, LoginRequiredMixin):
+    login_url = ''
+    model = Book
+    success_url = reverse_lazy('book_list')
+    template_name = 'confirm_delete.html'
+
+
+class BookCreateView(CreateView, LoginRequiredMixin):
+    login_url = ''
+    model = Book
+    form_class = BookForm
+    template_name = 'books/book_add.html'
+    redirect_field_name = 'book_list'
+
+
+class BookUpdateView(UpdateView, LoginRequiredMixin):
+    login_url = ''
+    model = Book
+    redirect_field_name = 'book_list'
+    form_class = BookForm
+    template_name = 'books/book_add.html'
 
 
 class BookDetailView(DetailView):

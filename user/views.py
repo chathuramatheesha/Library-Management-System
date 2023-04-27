@@ -47,7 +47,7 @@ class AuthorDeleteView(DeleteView, LoginRequiredMixin):
     login_url = ''
     model = Author
     success_url = reverse_lazy('author_list')
-    template_name = 'users/author/author_confirm_delete.html'
+    template_name = 'users/author/../templates/confirm_delete.html'
 
 
 # USER

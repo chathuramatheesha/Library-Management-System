@@ -43,7 +43,18 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <!-- Check user is logged -->
-                                            {% if user.is_authenticated %}
+                                            {% if user.is_authenticated and user.is_staff %}
+                                                <form action="{% url 'book_edit' pk=book.pk %}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                        Edit
+                                                    </button>
+                                                </form>
+                                                <form action="{% url 'book_delete' pk=book.pk %}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            {% else %}
                                                 <!-- Check book quantity lower or equal to 0 and then disabled it -->
                                                 <form action="">
                                                     <button type="submit" class="btn btn-sm btn-outline-secondary"
