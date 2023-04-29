@@ -22,7 +22,7 @@ from django.urls import path, include
 from library.views import BookListView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin_dashboard'),
     path('', BookListView.as_view(), name='book_list'),
     path('book/', include('library.urls')),
     path('user/', include('user.urls')),

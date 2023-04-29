@@ -1,6 +1,7 @@
-from django.utils.deconstruct import deconstructible
-from uuid import uuid4
 import os
+from uuid import uuid4
+
+from django.utils.deconstruct import deconstructible
 
 
 @deconstructible

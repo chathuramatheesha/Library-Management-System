@@ -1,6 +1,7 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
 
 from Library_Management_System.utils import PathAndRename
 
@@ -9,7 +10,7 @@ class Book(models.Model):
     author = models.ForeignKey('user.Author', on_delete=models.CASCADE, related_name='books')
     image = models.ImageField(null=False, upload_to=PathAndRename("books/"))
     title = models.CharField(max_length=150, blank=False, null=False)
-    issued_date = models.DateTimeField(default=timezone.now)
+    issued_date = models.DateField(default=timezone.now)
     quantity = models.IntegerField()
 
     def get_absolute_url(self):
@@ -26,8 +27,8 @@ class Book(models.Model):
 class Borrowed(models.Model):
     user = models.ForeignKey('user.Borrower', on_delete=models.CASCADE, related_name='borrowed')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='borrowed_books')
-    borrowed_date = models.DateTimeField(default=timezone.now)
-    received_date = models.DateTimeField(default=timezone.now)
+    borrowed_date = models.DateField(default=timezone.now)
+    received_date = models.DateField(blank=True, null=True)
     late_payment_tax = models.IntegerField(blank=True, null=True)
 
     def __str__(self):

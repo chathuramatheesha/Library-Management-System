@@ -1,7 +1,8 @@
-from django.db import models
-from django.utils import timezone
-from django.urls import reverse
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+
 from Library_Management_System.utils import PathAndRename
 
 
@@ -27,6 +28,7 @@ class BorrowerType(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     how_many_books_can_be_borrowed = models.IntegerField(blank=False, null=False)
     late_payment_rate = models.FloatField(blank=False, null=False)
+    weeks_for_return = models.IntegerField(blank=False, null=False)
 
     def update_borrowed_book_count(self, capacity: int):
         self.how_many_books_can_be_borrowed = capacity
@@ -44,8 +46,9 @@ class Borrower(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     image = models.ImageField(null=False, upload_to=PathAndRename("borrowers/"))
     borrower_type = models.ForeignKey(BorrowerType, on_delete=models.DO_NOTHING, related_name='borrowers')
-    birthdate = models.DateTimeField()
+    birthdate = models.DateField()
     user_created_date = models.DateTimeField(default=timezone.now)
+    borrowed_books = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

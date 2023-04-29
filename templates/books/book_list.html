@@ -58,7 +58,7 @@
                                                 </form>
                                             {% elif user.is_authenticated %}
                                                 <!-- Check book quantity lower or equal to 0 and then disabled it -->
-                                                <form action="">
+                                                <form action="{% url 'booK_borrow' pk=book.pk %}">
                                                     <button type="submit" class="btn btn-sm btn-outline-secondary"
                                                             {% if book.quantity <= 0 %}disabled{% endif %}>Borrow
                                                     </button>
